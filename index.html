@@ -773,7 +773,7 @@
         <a href="#collections">Collections</a>
         <a href="#quote">Get a quote</a>
       </div>
-      <div class="copy">© 2026 Stadium Insurance. Illustrative demo.</div>
+      <div class="copy">© 2026 Stadium Insurance. All rights reserved.</div>
     </div>
   </div>
 </footer>
@@ -781,6 +781,8 @@
 <script>
   (function () {
     var ENDPOINT = 'https://formspree.io/f/mvzjllaa';
+    // Webhook relay that creates Close CRM leads server-side (API key stays server-side)
+    var CLOSE_HOOK = 'https://si-leads.stadiuminsurance.workers.dev';
     var form = document.getElementById('quoteForm');
     var fields = document.getElementById('formFields');
     var success = document.getElementById('successState');
@@ -842,6 +844,14 @@
           fields.classList.add('hidden');
           success.classList.remove('hidden');
           success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          // Fire-and-forget: create lead in Close CRM via server-side relay
+          if (CLOSE_HOOK) {
+            fetch(CLOSE_HOOK, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            }).catch(function () {});
+          }
         } else {
           return res.json().then(function (d) {
             throw new Error((d && d.errors && d.errors[0] && d.errors[0].message) || 'Submission failed');
