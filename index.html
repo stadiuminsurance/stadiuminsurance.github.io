@@ -58,9 +58,12 @@
     border-bottom: 1px solid var(--line);
   }
   nav {
-    display: flex; align-items: center; justify-content: space-between;
+    position: relative;
+    display: flex; align-items: center; justify-content: flex-end;
     height: 68px;
   }
+  nav .brand { position: absolute; left: 50%; transform: translateX(-50%); }
+  nav .brand .mark, nav .brand .mark svg { height: 34px; }
   .brand { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 18px; letter-spacing: -.01em; }
   .brand .mark {
     height: 30px; display: grid; place-items: center;
@@ -426,7 +429,6 @@
     <nav>
       <div class="brand">
         <span class="mark"><svg class="logo-ico"><use href="#si-mark"/></svg></span>
-        <span class="brand-name">Stadium <span>Insurance</span></span>
       </div>
       <div class="nav-links">
         <a href="#how">How it works</a>
