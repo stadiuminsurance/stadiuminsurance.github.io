@@ -770,31 +770,76 @@
 
 <script>
   (function () {
+    var ENDPOINT = 'https://formspree.io/f/mvzjllaa';
     var form = document.getElementById('quoteForm');
     var fields = document.getElementById('formFields');
     var success = document.getElementById('successState');
+    var submitBtn = form.querySelector('button[type="submit"]');
+
+    function val(id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; }
+
+    function showError(msg) {
+      var box = document.getElementById('formError');
+      if (!box) {
+        box = document.createElement('p');
+        box.id = 'formError';
+        box.style.cssText = 'margin-top:14px;color:#ff9d4d;font-size:14px;text-align:center';
+        submitBtn.parentNode.insertBefore(box, submitBtn.nextSibling);
+      }
+      box.textContent = msg;
+    }
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      if (!form.checkValidity()) {
-        form.reportValidity();
-        return;
-      }
+      if (!form.checkValidity()) { form.reportValidity(); return; }
 
-      var first = document.getElementById('firstName').value.trim();
-      document.getElementById('successName').textContent = first || 'collector';
+      var first = val('firstName');
+      var last = val('lastName');
 
       // Build a friendly reference number from the category + a simple counter.
-      var typeVal = document.getElementById('type').value || 'COL';
+      var typeVal = val('type') || 'COL';
       var prefix = typeVal.replace(/[^A-Za-z]/g, '').slice(0, 3).toUpperCase() || 'COL';
       var n = 0, s = (first + Date.now().toString()).split('');
       for (var i = 0; i < s.length; i++) { n = (n + s[i].charCodeAt(0) * (i + 1)) % 100000; }
       var ref = 'SI-' + prefix + '-' + String(n).padStart(5, '0');
-      document.getElementById('refNo').textContent = ref;
 
-      fields.classList.add('hidden');
-      success.classList.remove('hidden');
-      success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      var payload = {
+        firstName: first,
+        lastName: last,
+        email: val('email'),
+        role: val('role'),
+        collects: typeVal,
+        estimatedValue: val('value'),
+        notes: val('notes'),
+        reference: ref,
+        source: 'stadiuminsurance landing page',
+        _subject: 'New quote request — ' + (first + ' ' + last).trim()
+      };
+
+      var origText = submitBtn ? submitBtn.textContent : '';
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Sending…'; }
+      showError('');
+
+      fetch(ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(payload)
+      }).then(function (res) {
+        if (res.ok) {
+          document.getElementById('successName').textContent = first || 'collector';
+          document.getElementById('refNo').textContent = ref;
+          fields.classList.add('hidden');
+          success.classList.remove('hidden');
+          success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else {
+          return res.json().then(function (d) {
+            throw new Error((d && d.errors && d.errors[0] && d.errors[0].message) || 'Submission failed');
+          });
+        }
+      }).catch(function () {
+        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = origText; }
+        showError('Sorry — something went wrong sending your request. Please try again in a moment.');
+      });
     });
   })();
 </script>
