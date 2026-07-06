@@ -621,6 +621,11 @@
           </div>
 
           <div class="field">
+            <label for="phone">Phone</label>
+            <input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="(555) 123-4567" required>
+          </div>
+
+          <div class="field">
             <label for="role">Which best describes you?</label>
             <select id="role" name="role" required>
               <option value="" disabled selected>Select one</option>
@@ -808,6 +813,7 @@
         firstName: first,
         lastName: last,
         email: val('email'),
+        phone: val('phone'),
         role: val('role'),
         collects: typeVal,
         estimatedValue: val('value'),
