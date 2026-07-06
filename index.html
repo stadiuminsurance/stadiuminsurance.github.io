@@ -782,7 +782,8 @@
   (function () {
     var ENDPOINT = 'https://formspree.io/f/mvzjllaa';
     // Webhook relay that creates Close CRM leads server-side (API key stays server-side)
-    var CLOSE_HOOK = 'https://si-leads.stadiuminsurance.workers.dev';
+    // Set to Zapier Catch Hook URL or Pi tunnel URL when ready
+    var CLOSE_HOOK = '';
     var form = document.getElementById('quoteForm');
     var fields = document.getElementById('formFields');
     var success = document.getElementById('successState');
