@@ -407,8 +407,9 @@
 
   /* ---------- Footer ---------- */
   footer { border-top: 1px solid var(--line); padding: 40px 0; }
-  .foot-inner { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .foot-inner { display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center; }
   footer .brand { font-size: 16px; }
+  footer .brand .mark, footer .brand .mark svg { height: 34px; }
   .foot-links { display: flex; gap: 24px; }
   .foot-links a { color: var(--ink-soft); text-decoration: none; font-size: 14px; }
   .foot-links a:hover { color: var(--ink); }
@@ -762,7 +763,6 @@
     <div class="foot-inner">
       <div class="brand">
         <span class="mark"><svg class="logo-ico"><use href="#si-mark"/></svg></span>
-        <span class="brand-name">Stadium <span>Insurance</span></span>
       </div>
       <div class="foot-links">
         <a href="#how">How it works</a>
