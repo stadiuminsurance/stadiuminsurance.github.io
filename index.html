@@ -252,9 +252,13 @@
   .field input:invalid:not(:placeholder-shown) { border-color: #d98a8a; }
   .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
   @media (max-width: 520px) { .row { grid-template-columns: 1fr; } }
-  .consent { display: flex; gap: 10px; align-items: flex-start; margin: 4px 0 22px; }
+  .consent { display: flex; gap: 10px; align-items: flex-start; margin: 4px 0 16px; }
   .consent input { width: 16px; height: 16px; margin-top: 4px; flex: none; accent-color: var(--accent); }
   .consent label { font-size: 13px; color: var(--ink-soft); line-height: 1.5; }
+  .consent-link { color: var(--accent-2); text-decoration: none; white-space: nowrap; }
+  .consent-link:hover { text-decoration: underline; }
+  .sms-consent { margin: 0 0 22px; padding: 14px 16px; border: 1px solid rgba(255,122,26,.18); border-radius: 10px; background: rgba(255,122,26,.05); }
+  .sms-consent label { color: var(--ink-soft); }
   form .btn-primary { width: 100%; padding: 14px; font-size: 16px; }
   .form-foot { text-align: center; font-size: 13px; color: var(--ink-soft); margin-top: 14px; }
 
@@ -630,6 +634,13 @@
             <input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="(555) 123-4567" required>
           </div>
 
+          <div class="consent sms-consent">
+            <input id="smsConsent" name="smsConsent" type="checkbox">
+            <label for="smsConsent">
+              By checking this box, you agree to receive automated transactional text messages (SMS/MMS) with varying frequency from Stadium Insurance about your quote and appointment reminders. Msg &amp; data rates may apply. Reply <strong>STOP</strong> to opt out or <strong>HELP</strong> for help. &nbsp;<a href="/terms.html" class="consent-link">Terms of Service</a> | <a href="/privacy.html" class="consent-link">Privacy Policy</a>
+            </label>
+          </div>
+
           <div class="field">
             <label for="role">Which best describes you?</label>
             <select id="role" name="role" required>
@@ -674,7 +685,7 @@
 
           <div class="consent">
             <input id="consent" name="consent" type="checkbox" required>
-            <label for="consent">I confirm these details are accurate and agree to be contacted about my quote. We never share your information.</label>
+            <label for="consent">I confirm these details are accurate and agree to be contacted about my quote. I have read and agree to the <a href="/terms.html" class="consent-link">Terms of Service</a> and <a href="/privacy.html" class="consent-link">Privacy Policy</a>. We never share your information with third parties for marketing.</label>
           </div>
 
           <button type="submit" class="btn btn-primary">Confirm &amp; request quote</button>
@@ -772,6 +783,8 @@
         <a href="#how">How it works</a>
         <a href="#collections">Collections</a>
         <a href="#quote">Get a quote</a>
+        <a href="/terms.html">Terms of Service</a>
+        <a href="/privacy.html">Privacy Policy</a>
       </div>
       <div class="copy">© 2026 Stadium Insurance. All rights reserved.</div>
     </div>
@@ -816,11 +829,13 @@
       for (var i = 0; i < s.length; i++) { n = (n + s[i].charCodeAt(0) * (i + 1)) % 100000; }
       var ref = 'SI-' + prefix + '-' + String(n).padStart(5, '0');
 
+      var smsEl = document.getElementById('smsConsent');
       var payload = {
         firstName: first,
         lastName: last,
         email: val('email'),
         phone: val('phone'),
+        smsOptIn: (smsEl && smsEl.checked) ? 'Yes' : 'No',
         role: val('role'),
         collects: typeVal,
         estimatedValue: val('value'),
