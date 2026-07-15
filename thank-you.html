@@ -45,14 +45,17 @@
   .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
   .narrow { max-width: 760px; }
 
-  .brand { display: flex; align-items: center; gap: 10px; }
-  .brand .mark svg { height: 34px; width: auto; display: block; }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
+  .brand .mark { display: grid; place-items: center; }
+  .brand .mark svg { height: 30px; width: auto; display: block; }
+  .brand-name { font-weight: 700; font-size: 17px; letter-spacing: -.01em; }
   .logo-ico { display: block; }
 
   /* ---------- Hero ---------- */
   .ty-hero { text-align: center; padding: 68px 0 44px; }
-  .ty-logo { display: inline-flex; margin-bottom: 30px; }
-  .ty-logo svg { height: 44px; width: auto; }
+  .ty-logo { display: inline-flex; align-items: center; gap: 12px; margin-bottom: 30px; text-decoration: none; color: var(--ink); }
+  .ty-logo .mark svg { height: 40px; width: auto; display: block; }
+  .ty-logo .brand-name { font-size: 22px; font-weight: 700; letter-spacing: -.01em; }
   .ty-check {
     width: 74px; height: 74px; margin: 0 auto 26px; border-radius: 50%;
     display: grid; place-items: center;
@@ -189,7 +192,8 @@
   <section class="ty-hero">
     <div class="wrap narrow">
       <a class="ty-logo" href="/" aria-label="Stadium Insurance home">
-        <svg class="logo-ico" viewBox="0 0 53 32"><use href="#si-mark"/></svg>
+        <span class="mark"><svg class="logo-ico" viewBox="0 0 53 32"><use href="#si-mark"/></svg></span>
+        <span class="brand-name">Stadium Insurance</span>
       </a>
       <div class="ty-check" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
@@ -298,9 +302,10 @@
 <footer>
   <div class="wrap">
     <div class="foot-inner">
-      <div class="brand">
+      <a href="/" class="brand">
         <span class="mark"><svg class="logo-ico" viewBox="0 0 53 32"><use href="#si-mark"/></svg></span>
-      </div>
+        <span class="brand-name">Stadium Insurance</span>
+      </a>
       <div class="foot-links">
         <a href="/">Home</a>
         <a href="/#how">How it works</a>
