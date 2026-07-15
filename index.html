@@ -792,9 +792,14 @@
 <script>
   (function () {
     var ENDPOINT = 'https://formspree.io/f/mvzjllaa';
-    // Webhook relay that creates Close CRM leads server-side (API key stays server-side)
-    // Set to Zapier Catch Hook URL or Pi tunnel URL when ready
-    var CLOSE_HOOK = '';
+    // Zapier Catch Hook that creates a Close CRM lead ("Formspree → Close Lead" Zap).
+    var CLOSE_HOOK = 'https://hooks.zapier.com/hooks/catch/27754945/4uj7c9n/';
+    // Capture a referral slug from the URL (?ref=…) so leads can be attributed.
+    var REFERRAL = '';
+    try {
+      REFERRAL = (new URLSearchParams(window.location.search).get('ref') || '').trim().slice(0, 64);
+    } catch (e) { REFERRAL = ''; }
+
     var form = document.getElementById('quoteForm');
     var fields = document.getElementById('formFields');
     var success = document.getElementById('successState');
@@ -840,6 +845,7 @@
         notes: val('notes'),
         reference: ref,
         source: 'stadiuminsurance landing page',
+        referral: REFERRAL,
         _subject: 'New quote request — ' + (first + ' ' + last).trim()
       };
 
