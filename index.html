@@ -859,19 +859,19 @@
         body: JSON.stringify(payload)
       }).then(function (res) {
         if (res.ok) {
-          document.getElementById('successName').textContent = first || 'collector';
-          document.getElementById('refNo').textContent = ref;
-          fields.classList.add('hidden');
-          success.classList.remove('hidden');
-          success.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          // Fire-and-forget: create lead in Close CRM via server-side relay
+          // Fire-and-forget: create the Close CRM lead via the Zapier catch hook.
+          // keepalive lets the request finish even after we navigate away.
           if (CLOSE_HOOK) {
             fetch(CLOSE_HOOK, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(payload)
+              body: JSON.stringify(payload),
+              keepalive: true
             }).catch(function () {});
           }
+          // Stash the first name (no PII in the URL) so the thank-you page can greet them.
+          try { sessionStorage.setItem('si_first_name', first); } catch (e) {}
+          window.location.assign('/thank-you.html');
         } else {
           return res.json().then(function (d) {
             throw new Error((d && d.errors && d.errors[0] && d.errors[0].message) || 'Submission failed');

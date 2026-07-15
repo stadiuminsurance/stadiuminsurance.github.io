@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thank You — Stadium Insurance</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #f6f1ea;
+    --ink-soft: #a59b8d;
+    --line: rgba(255,255,255,.09);
+    --bg: #0b0908;
+    --card: #161210;
+    --accent: #ff7a1a;
+    --accent-2: #ff9d4d;
+    --accent-deep: #d95f00;
+    --glow: rgba(255,122,26,.45);
+    --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    --radius: 14px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    color: var(--ink);
+    background:
+      radial-gradient(900px 560px at 50% 0%, rgba(255,122,26,.20), transparent 60%),
+      radial-gradient(820px 640px at 92% 30%, rgba(255,140,40,.08), transparent 55%),
+      radial-gradient(760px 660px at 6% 60%, rgba(255,100,20,.07), transparent 55%),
+      radial-gradient(880px 640px at 50% 100%, rgba(255,122,26,.12), transparent 62%),
+      linear-gradient(180deg, #0c0a09 0%, #141015 22%, #0e0b0e 44%, #16110e 68%, #100c0c 86%, #0b0908 100%);
+    background-repeat: no-repeat;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    min-height: 100vh;
+  }
+
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+  .narrow { max-width: 760px; }
+
+  .brand { display: flex; align-items: center; gap: 10px; }
+  .brand .mark svg { height: 34px; width: auto; display: block; }
+  .logo-ico { display: block; }
+
+  /* ---------- Hero ---------- */
+  .ty-hero { text-align: center; padding: 68px 0 44px; }
+  .ty-logo { display: inline-flex; margin-bottom: 30px; }
+  .ty-logo svg { height: 44px; width: auto; }
+  .ty-check {
+    width: 74px; height: 74px; margin: 0 auto 26px; border-radius: 50%;
+    display: grid; place-items: center;
+    background: linear-gradient(150deg, var(--accent-2), var(--accent));
+    color: #1a0d02; box-shadow: 0 0 44px -6px var(--glow), inset 0 1px 0 rgba(255,255,255,.25);
+  }
+  .ty-check svg { width: 36px; height: 36px; }
+  .ty-hero h1 {
+    font-size: 40px; line-height: 1.12; letter-spacing: -.02em; font-weight: 800;
+    margin-bottom: 16px;
+  }
+  .ty-hero h1 .accent {
+    background: linear-gradient(120deg, var(--accent-2), var(--accent));
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .ty-hero p.lede { font-size: 18px; color: var(--ink-soft); max-width: 560px; margin: 0 auto 12px; }
+  .ty-hero p.fine { font-size: 14.5px; color: var(--ink-soft); max-width: 560px; margin: 0 auto; }
+  .ty-hero p.fine b { color: var(--ink); font-weight: 600; }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    font: inherit; font-weight: 600; font-size: 14.5px; letter-spacing: .01em;
+    padding: 12px 22px; border-radius: 8px; border: 1px solid transparent;
+    cursor: pointer; text-decoration: none; transition: transform .12s ease, background .15s ease;
+    white-space: nowrap;
+  }
+  .btn-primary {
+    background: linear-gradient(150deg, var(--accent-2), var(--accent));
+    color: #1a0d02;
+    box-shadow: 0 0 26px -6px var(--glow), inset 0 1px 0 rgba(255,255,255,.22);
+  }
+  .btn-primary:hover { background: linear-gradient(150deg, var(--accent), var(--accent-deep)); box-shadow: 0 0 34px -4px var(--glow); }
+  .btn-primary:active { transform: translateY(1px); }
+  .ty-cta { margin-top: 30px; }
+
+  /* ---------- Section head ---------- */
+  .section-head { text-align: center; max-width: 620px; margin: 0 auto 34px; }
+  .section-head h2 { font-size: 27px; letter-spacing: -.02em; font-weight: 700; margin-bottom: 10px; }
+  .section-head p { color: var(--ink-soft); font-size: 15.5px; }
+
+  /* ---------- Compare table ---------- */
+  .compare { padding: 40px 0 64px; }
+  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .compare-table { width: 100%; min-width: 620px; border-collapse: separate; border-spacing: 0; }
+  .compare-table th, .compare-table td {
+    padding: 18px 22px; text-align: center; font-size: 15px; vertical-align: middle;
+    border-bottom: 1px solid var(--line);
+  }
+  .compare-table thead th { border-bottom: none; padding-bottom: 10px; }
+  .compare-table tbody tr:last-child td, .compare-table tbody tr:last-child th { border-bottom: none; }
+  .compare-table th[scope="row"], .compare-table .rowhead {
+    text-align: left; color: var(--ink); font-weight: 500; white-space: nowrap;
+  }
+  .compare-table thead th:not(.us) { color: var(--ink); font-weight: 600; }
+  .compare-table td:not(.us) { color: var(--ink-soft); }
+  .compare-table .us { background: rgba(255,122,26,.06); border-left: 1px solid rgba(255,122,26,.45); border-right: 1px solid rgba(255,122,26,.45); }
+  .compare-table thead th.us {
+    background: linear-gradient(150deg, var(--accent-2), var(--accent));
+    color: #1a0d02; font-weight: 700; letter-spacing: .01em;
+    border-top-left-radius: 12px; border-top-right-radius: 12px;
+    border-left-color: transparent; border-right-color: transparent;
+    box-shadow: 0 0 34px -8px var(--glow);
+  }
+  .compare-table tbody tr:last-child td.us { border-bottom: 1px solid rgba(255,122,26,.45); border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; }
+  .compare-table td.us { color: var(--accent-2); font-weight: 600; }
+  .yes {
+    display: inline-grid; place-items: center; width: 30px; height: 30px; border-radius: 50%;
+    background: #1f9d52; color: #fff; box-shadow: 0 0 16px -4px rgba(31,157,82,.8);
+  }
+  .yes svg { width: 16px; height: 16px; }
+
+  @media (max-width: 640px) {
+    .compare { padding: 20px 0 40px; }
+    .table-wrap { overflow-x: visible; margin: 0 -8px; }
+    .compare-table { min-width: 0; width: 100%; table-layout: fixed; }
+    .compare-table thead th.rowhead { width: 22%; }
+    .compare-table thead th.us { width: 26%; }
+    .compare-table th, .compare-table td {
+      padding: 9px 5px; font-size: 11px; line-height: 1.3; overflow-wrap: break-word;
+    }
+    .compare-table thead th { font-size: 9.5px; padding: 7px 4px; letter-spacing: -.01em; }
+    .compare-table thead th.us { border-top-left-radius: 9px; border-top-right-radius: 9px; }
+    .compare-table th[scope="row"] { white-space: normal; font-weight: 600; padding-left: 2px; }
+    .compare-table td.us { font-size: 11px; }
+    .compare-table tbody tr:last-child td.us { border-bottom-left-radius: 9px; border-bottom-right-radius: 9px; }
+    .yes { width: 20px; height: 20px; }
+    .yes svg { width: 11px; height: 11px; }
+  }
+
+  /* ---------- Testimonials ---------- */
+  .proof { padding: 24px 0 84px; }
+  .testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .testi-card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 26px 24px; }
+  .testi-card .stars { color: var(--accent); letter-spacing: 3px; font-size: 13px; margin-bottom: 14px; }
+  .testi-card > p { font-size: 15px; color: var(--ink); margin-bottom: 20px; }
+  .testi-who { display: flex; align-items: center; gap: 12px; }
+  .testi-ava {
+    width: 40px; height: 40px; border-radius: 50%; flex: none; display: grid; place-items: center;
+    font-weight: 700; color: #1a0d02; font-size: 14px;
+    background: linear-gradient(150deg, var(--accent-2), var(--accent)); box-shadow: 0 0 16px -4px var(--glow);
+  }
+  .testi-who b { display: block; font-size: 14px; font-weight: 600; color: var(--ink); }
+  .testi-who em { font-style: normal; font-size: 12.5px; color: var(--ink-soft); }
+  @media (max-width: 760px) { .testi-grid { grid-template-columns: 1fr; } }
+
+  /* ---------- Footer ---------- */
+  footer { border-top: 1px solid var(--line); padding: 40px 0; }
+  .foot-inner { display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center; }
+  .foot-links { display: flex; gap: 24px; flex-wrap: wrap; justify-content: center; }
+  .foot-links a { color: var(--ink-soft); text-decoration: none; font-size: 14px; }
+  .foot-links a:hover { color: var(--ink); }
+  .copy { color: var(--ink-soft); font-size: 13px; }
+
+  @media (max-width: 560px) {
+    .ty-hero { padding: 48px 0 32px; }
+    .ty-hero h1 { font-size: 31px; }
+    .ty-hero p.lede { font-size: 16.5px; }
+    .section-head h2 { font-size: 23px; }
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+  <symbol id="si-mark" viewBox="0 0 53 32">
+    <path d="M1.749 16.707c1.736 1.394 5.1 2.591 9.516 3.43a88.845 88.845 0 0 0 30.094 0c4.009-.762 7.161-1.82 9.006-3.053a.454.454 0 0 0 0-.756c-1.83-1.233-4.95-2.285-8.918-3.039h-.176a88.889 88.889 0 0 1-30.007-.016 42.919 42.919 0 0 1-4.345-1.044.618.618 0 0 1-.436-.6v-1.02a.618.618 0 0 1 .436-.6A71.18 71.18 0 0 1 26.311 7.68c9.44 0 17.7 1.342 22.211 3.347a.474.474 0 0 0 .4-.006c2.075-.987 3.258-2.126 3.258-3.34C52.18 3.89 40.6.816 26.316.816 12.033.817.458 3.891.458 7.68v6.87a2.9 2.9 0 0 0 1.291 2.157Z" fill="currentColor"/>
+    <g transform="translate(0,19)">
+      <path d="M51.387.712a8.75 8.75 0 0 1-2.677 1.74 34.92 34.92 0 0 1-8.256 2.316c-1.34.233-2.766.434-4.263.6h-.006c-.483.053-.974.103-1.472.148l-.056.006c-.47.043-.948.08-1.43.116l-.144.012c-.465.033-.938.062-1.413.089l-.192.012c-.5.027-1 .049-1.509.068l-.126.006a96.998 96.998 0 0 1-5.387.046h-.1a86.375 86.375 0 0 1-1.737-.051l-.5-.022c-.458-.02-.914-.042-1.364-.07l-.443-.026c-.5-.032-1-.068-1.5-.107l-.223-.018c-.588-.05-1.169-.1-1.739-.163h-.005A51.812 51.812 0 0 1 5.952 3.25c-.292-.1-.572-.2-.844-.3l-.238-.09a18.336 18.336 0 0 1-.926-.391l-.022-.01A8.752 8.752 0 0 1 1.244.72a.456.456 0 0 0-.788.316v4.86c.003.175.03.349.08.517.01.033.017.066.03.1a2.4 2.4 0 0 0 .23.49c.016.028.036.055.055.083.11.166.233.323.369.468l.029.034c.167.171.346.331.534.479l.1.08a8.1 8.1 0 0 0 .674.463l.056.033c.25.152.52.3.81.446l.06.03c.3.15.617.294.954.436l.119.049a46.476 46.476 0 0 0 12.158 2.666h.009l.138.013c.667.067 1.345.13 2.035.188l.256.019c.698.053 1.407.1 2.128.138l.235.01c.733.037 1.48.066 2.238.087h.172c.776.018 1.561.029 2.356.03h.033c.6 0 1.193-.007 1.783-.018l.386-.008a94.996 94.996 0 0 0 3.49-.141l.277-.017a82.561 82.561 0 0 0 3.412-.281l.127-.013a72.373 72.373 0 0 0 3.3-.42c7.811-1.18 13.084-3.41 13.086-5.965v-4.86a.456.456 0 0 0-.788-.32Z" fill="#F15A22"/>
+    </g>
+  </symbol>
+</svg>
+
+<main>
+  <section class="ty-hero">
+    <div class="wrap narrow">
+      <a class="ty-logo" href="/" aria-label="Stadium Insurance home">
+        <svg class="logo-ico" viewBox="0 0 53 32"><use href="#si-mark"/></svg>
+      </a>
+      <div class="ty-check" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+      </div>
+      <h1>Thank you for filling out<br>the form<span class="accent" id="tyName"></span></h1>
+      <p class="lede">A collector-first specialist will be in contact with you shortly.</p>
+      <p class="fine">Keep an eye on your inbox and phone — someone from our team typically reaches out <b>within 48 hours</b> with your personalized quote. No payment required.</p>
+      <div class="ty-cta">
+        <a href="/" class="btn btn-primary">Back to home</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="compare">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Why collectors choose Stadium</h2>
+        <p>While you wait, here's how our coverage stacks up against a typical homeowners policy or generic rider.</p>
+      </div>
+      <div class="table-wrap">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th class="rowhead"></th>
+              <th class="us">Stadium Insurance</th>
+              <th>Typical Homeowners</th>
+              <th>Typical Rider</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Theft</th>
+              <td class="us"><span class="yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span></td>
+              <td>Not always covered</td>
+              <td>Not always covered</td>
+            </tr>
+            <tr>
+              <th scope="row">Shipping Coverage</th>
+              <td class="us"><span class="yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span></td>
+              <td>Not covered</td>
+              <td>Not always covered</td>
+            </tr>
+            <tr>
+              <th scope="row">Flood or Earthquake</th>
+              <td class="us"><span class="yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span></td>
+              <td>Not always covered</td>
+              <td>Not always covered</td>
+            </tr>
+            <tr>
+              <th scope="row">Travel</th>
+              <td class="us"><span class="yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span></td>
+              <td>Not always covered</td>
+              <td>Not always covered</td>
+            </tr>
+            <tr>
+              <th scope="row">Out of Pocket Costs</th>
+              <td class="us">$0 deductible option</td>
+              <td>Homeowner deductible applies</td>
+              <td>May have deductible</td>
+            </tr>
+            <tr>
+              <th scope="row">Appraisals</th>
+              <td class="us">Not required</td>
+              <td>Required</td>
+              <td>Required</td>
+            </tr>
+            <tr>
+              <th scope="row">Coverage Levels</th>
+              <td class="us">Up to $5 Million<br>(higher limits available)</td>
+              <td>Limited</td>
+              <td>Limited</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="proof">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Collectors like you, covered</h2>
+        <p>Real people protecting real collections — from single grails to six-figure inventory.</p>
+      </div>
+      <div class="testi-grid">
+        <div class="testi-card">
+          <div class="stars">★★★★★</div>
+          <p>"Filled out the form on a Sunday night and had a real specialist — not a call center — walk me through my slabs by Tuesday. Fastest, easiest quote I've ever gotten."</p>
+          <div class="testi-who"><span class="testi-ava">JR</span><div><b>Jordan R.</b><em>Vintage Pokémon collector</em></div></div>
+        </div>
+        <div class="testi-card">
+          <div class="stars">★★★★★</div>
+          <p>"My homeowners policy would've paid pennies if my show inventory got stolen. Stadium covered the whole table, the drive, and everything I ship out. Total peace of mind."</p>
+          <div class="testi-who"><span class="testi-ava">AM</span><div><b>Alicia M.</b><em>Sports card dealer</em></div></div>
+        </div>
+        <div class="testi-card">
+          <div class="stars">★★★★★</div>
+          <p>"No appraisals, no runaround, $0 deductible option. They clearly get how collectors actually move product. Wish I'd switched years ago."</p>
+          <div class="testi-who"><span class="testi-ava">DP</span><div><b>Devon P.</b><em>Card shop &amp; breaker</em></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-inner">
+      <div class="brand">
+        <span class="mark"><svg class="logo-ico" viewBox="0 0 53 32"><use href="#si-mark"/></svg></span>
+      </div>
+      <div class="foot-links">
+        <a href="/">Home</a>
+        <a href="/#how">How it works</a>
+        <a href="/terms.html">Terms of Service</a>
+        <a href="/privacy.html">Privacy Policy</a>
+      </div>
+      <div class="copy">© 2026 Stadium Insurance. All rights reserved.</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Personalize the greeting if a first name was stashed at submit time (no PII in the URL).
+  (function () {
+    try {
+      var name = sessionStorage.getItem('si_first_name');
+      if (name) {
+        var el = document.getElementById('tyName');
+        if (el) el.textContent = ', ' + name;
+        sessionStorage.removeItem('si_first_name');
+      }
+    } catch (e) {}
+  })();
+</script>
+
+</body>
+</html>
