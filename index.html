@@ -879,18 +879,20 @@ src="https://www.facebook.com/tr?id=1686448649284276&ev=PageView&noscript=1"
           // Stash the first name (no PII in the URL) so the thank-you page can greet them.
           try { sessionStorage.setItem('si_first_name', first); } catch (e) {}
           var goThankYou = function () { window.location.assign('/thank-you.html'); };
-          // Create the Close CRM lead via the Zapier catch hook, and WAIT for the POST
-          // to actually deliver its body before navigating. Redirecting too early drops
-          // the request body, so the lead/email would arrive with every field empty.
+          // Create the Close CRM lead via the Zapier catch hook. Send it form-encoded
+          // (a "simple" request) so the browser does NOT fire a CORS preflight — a JSON
+          // content-type triggers a preflight the hook doesn't answer, which silently
+          // drops the body and makes every lead/email field arrive empty. no-cors lets
+          // the POST go through; Zapier parses the form fields the same as JSON. We wait
+          // for it to send before navigating, with a safety timeout so users aren't stuck.
           if (CLOSE_HOOK) {
+            var params = new URLSearchParams();
+            Object.keys(payload).forEach(function (k) {
+              params.append(k, payload[k] == null ? '' : String(payload[k]));
+            });
             var navigated = false;
             var done = function () { if (!navigated) { navigated = true; goThankYou(); } };
-            fetch(CLOSE_HOOK, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(payload)
-            }).then(done, done);
-            // Safety net: never trap the user if the hook is slow or unreachable.
+            fetch(CLOSE_HOOK, { method: 'POST', mode: 'no-cors', body: params }).then(done, done);
             setTimeout(done, 3000);
           } else {
             goThankYou();
