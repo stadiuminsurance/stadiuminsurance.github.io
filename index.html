@@ -876,19 +876,25 @@ src="https://www.facebook.com/tr?id=1686448649284276&ev=PageView&noscript=1"
         body: JSON.stringify(payload)
       }).then(function (res) {
         if (res.ok) {
-          // Fire-and-forget: create the Close CRM lead via the Zapier catch hook.
-          // keepalive lets the request finish even after we navigate away.
+          // Stash the first name (no PII in the URL) so the thank-you page can greet them.
+          try { sessionStorage.setItem('si_first_name', first); } catch (e) {}
+          var goThankYou = function () { window.location.assign('/thank-you.html'); };
+          // Create the Close CRM lead via the Zapier catch hook, and WAIT for the POST
+          // to actually deliver its body before navigating. Redirecting too early drops
+          // the request body, so the lead/email would arrive with every field empty.
           if (CLOSE_HOOK) {
+            var navigated = false;
+            var done = function () { if (!navigated) { navigated = true; goThankYou(); } };
             fetch(CLOSE_HOOK, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(payload),
-              keepalive: true
-            }).catch(function () {});
+              body: JSON.stringify(payload)
+            }).then(done, done);
+            // Safety net: never trap the user if the hook is slow or unreachable.
+            setTimeout(done, 3000);
+          } else {
+            goThankYou();
           }
-          // Stash the first name (no PII in the URL) so the thank-you page can greet them.
-          try { sessionStorage.setItem('si_first_name', first); } catch (e) {}
-          window.location.assign('/thank-you.html');
         } else {
           return res.json().then(function (d) {
             throw new Error((d && d.errors && d.errors[0] && d.errors[0].message) || 'Submission failed');
