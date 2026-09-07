@@ -811,11 +811,25 @@ src="https://www.facebook.com/tr?id=1686448649284276&ev=PageView&noscript=1"
     var ENDPOINT = 'https://formspree.io/f/mvzjllaa';
     // Zapier Catch Hook that creates a Close CRM lead ("Formspree → Close Lead" Zap).
     var CLOSE_HOOK = 'https://hooks.zapier.com/hooks/catch/27754945/4uj7c9n/';
-    // Capture a referral slug from the URL (?ref=…) so leads can be attributed.
+    // Capture referral slug + ad/UTM attribution from the landing URL so every lead can
+    // be traced back to the ad, ad set, campaign, and channel that produced it. Persisted
+    // for the session so it survives any navigation before the form is submitted.
     var REFERRAL = '';
+    var ATTRIB = {};
     try {
-      REFERRAL = (new URLSearchParams(window.location.search).get('ref') || '').trim().slice(0, 64);
-    } catch (e) { REFERRAL = ''; }
+      var _q = new URLSearchParams(window.location.search);
+      REFERRAL = (_q.get('ref') || '').trim().slice(0, 64);
+      ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid'].forEach(function (k) {
+        var v = _q.get(k);
+        if (v) ATTRIB[k] = String(v).slice(0, 200);
+      });
+      if (Object.keys(ATTRIB).length) {
+        sessionStorage.setItem('si_attrib', JSON.stringify(ATTRIB));
+      } else {
+        var _saved = sessionStorage.getItem('si_attrib');
+        if (_saved) ATTRIB = JSON.parse(_saved) || {};
+      }
+    } catch (e) { REFERRAL = REFERRAL || ''; ATTRIB = ATTRIB || {}; }
 
     var form = document.getElementById('quoteForm');
     var fields = document.getElementById('formFields');
@@ -863,6 +877,12 @@ src="https://www.facebook.com/tr?id=1686448649284276&ev=PageView&noscript=1"
         reference: ref,
         source: 'stadiuminsurance landing page',
         referral: REFERRAL,
+        utmSource: ATTRIB.utm_source || '',
+        utmMedium: ATTRIB.utm_medium || '',
+        utmCampaign: ATTRIB.utm_campaign || '',
+        utmContent: ATTRIB.utm_content || '',
+        utmTerm: ATTRIB.utm_term || '',
+        fbclid: ATTRIB.fbclid || '',
         _subject: 'New quote request — ' + (first + ' ' + last).trim()
       };
 
