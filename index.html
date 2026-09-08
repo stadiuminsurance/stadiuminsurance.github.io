@@ -831,6 +831,18 @@ src="https://www.facebook.com/tr?id=1686448649284276&ev=PageView&noscript=1"
       }
     } catch (e) { REFERRAL = REFERRAL || ''; ATTRIB = ATTRIB || {}; }
 
+    // Compose one human-readable attribution line for the CRM (only the parts we have).
+    var AD_ATTRIBUTION = (function () {
+      var p = [];
+      if (ATTRIB.utm_source) p.push('Source: ' + ATTRIB.utm_source);
+      if (ATTRIB.utm_campaign) p.push('Campaign: ' + ATTRIB.utm_campaign);
+      if (ATTRIB.utm_term) p.push('Ad set: ' + ATTRIB.utm_term);
+      if (ATTRIB.utm_content) p.push('Ad: ' + ATTRIB.utm_content);
+      if (REFERRAL) p.push('Referral: ' + REFERRAL);
+      if (ATTRIB.fbclid) p.push('fbclid: ' + ATTRIB.fbclid);
+      return p.join(' · ');
+    })();
+
     var form = document.getElementById('quoteForm');
     var fields = document.getElementById('formFields');
     var success = document.getElementById('successState');
@@ -883,6 +895,7 @@ src="https://www.facebook.com/tr?id=1686448649284276&ev=PageView&noscript=1"
         utmContent: ATTRIB.utm_content || '',
         utmTerm: ATTRIB.utm_term || '',
         fbclid: ATTRIB.fbclid || '',
+        adAttribution: AD_ATTRIBUTION,
         _subject: 'New quote request — ' + (first + ' ' + last).trim()
       };
 
