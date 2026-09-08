@@ -876,12 +876,26 @@ src="https://www.facebook.com/tr?id=1686448649284276&ev=PageView&noscript=1"
       var ref = 'SI-' + prefix + '-' + String(n).padStart(5, '0');
 
       var smsEl = document.getElementById('smsConsent');
+      var smsVal = (smsEl && smsEl.checked) ? 'Yes' : 'No';
+
+      // Bundle every form answer (+ ad attribution) into one readable block for the CRM,
+      // so the full submission — not just collection/value — lands on the Close lead.
+      var LEAD_DETAILS = [
+        'Collector type: ' + (val('role') || '—'),
+        'Collects: ' + (typeVal || '—'),
+        'Est. value: ' + (val('value') || '—'),
+        'SMS opt-in: ' + smsVal,
+        'Reference #: ' + ref,
+        val('notes') ? 'Notes: ' + val('notes') : null,
+        AD_ATTRIBUTION ? AD_ATTRIBUTION : null
+      ].filter(Boolean).join('\n');
+
       var payload = {
         firstName: first,
         lastName: last,
         email: val('email'),
         phone: val('phone'),
-        smsOptIn: (smsEl && smsEl.checked) ? 'Yes' : 'No',
+        smsOptIn: smsVal,
         role: val('role'),
         collects: typeVal,
         estimatedValue: val('value'),
@@ -896,6 +910,7 @@ src="https://www.facebook.com/tr?id=1686448649284276&ev=PageView&noscript=1"
         utmTerm: ATTRIB.utm_term || '',
         fbclid: ATTRIB.fbclid || '',
         adAttribution: AD_ATTRIBUTION,
+        leadDetails: LEAD_DETAILS,
         _subject: 'New quote request — ' + (first + ' ' + last).trim()
       };
 
